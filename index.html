@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spot Weld Concern System - Complete Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 3px solid #dee2e6;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: #e9ecef;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border-radius: 10px 10px 0 0;
+            margin-right: 2px;
+        }
+
+        .nav-tab:hover {
+            background: #dee2e6;
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-card {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateX(10px);
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        /* Flowchart Styles */
+        .flowchart-container {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 800px;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+            min-width: 180px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .flow-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            border-color: #e74c3c;
+        }
+
+        .flow-box.user {
+            background: #e8f6ff;
+            border-color: #2196F3;
+        }
+
+        .flow-box.system {
+            background: #f0f8ff;
+            border-color: #4CAF50;
+        }
+
+        .flow-box.approval {
+            background: #fff8e1;
+            border-color: #FF9800;
+        }
+
+        .flow-box.decision {
+            background: #fce4ec;
+            border-color: #E91E63;
+            transform: rotate(45deg);
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-box.decision .text {
+            transform: rotate(-45deg);
+            font-size: 0.9rem;
+        }
+
+        .flow-arrow {
+            font-size: 2rem;
+            color: #3498db;
+            margin: 0 1rem;
+        }
+
+        .flow-arrow-down {
+            font-size: 2rem;
+            color: #3498db;
+            margin: 0.5rem 0;
+            transform: rotate(90deg);
+        }
+
+        .flow-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid;
+        }
+
+        .workflow-container {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .workflow-step {
+            display: inline-block;
+            background: white;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .workflow-arrow {
+            font-size: 1.5rem;
+            color: #3498db;
+            margin: 0 0.5rem;
+        }
+
+        .access-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .access-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .contact-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .quick-link-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link-card:hover {
+            border-color: #3498db;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .emoji {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                border-radius: 0;
+                margin-right: 0;
+                margin-bottom: 2px;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .workflow-step {
+                display: block;
+                margin: 1rem 0;
+            }
+            
+            .workflow-arrow {
+                transform: rotate(90deg);
+                display: block;
+                margin: 1rem auto;
+            }
+
+            .flowchart {
+                min-width: 100%;
+            }
+
+            .flow-row {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Spot Weld Concern System</h1>
+            <p>Complete User Guide & Workflow</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('access')">🔑 Power Apps Access</button>
+            <button class="nav-tab" onclick="showTab('step-by-step')">📋 Step-by-Step Guide</button>
+            <button class="nav-tab" onclick="showTab('workflow')">🔄 Workflow Process</button>
+            <button class="nav-tab" onclick="showTab('support')">📞 Support & Contact</button>
+        </div>
+
+        <div class="content">
+            <!-- Power Apps Access Tab (Now First) -->
+            <div id="access" class="tab-content active">
+                <h2>Power Apps Access Guide</h2>
+                
+                <div class="highlight">
+                    <h3 style="margin-top: 0;">🚀 Getting Started</h3>
+                    <p style="margin-bottom: 0;">To access the Spot Weld Concern system, you need Power Apps permissions. Follow these steps:</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        Request Access
+                    </div>
+                    <p><strong>Access Request Process:</strong></p>
+                    <ol>
+                        <li>Go to: <a href="https://nissangroup.sharepoint.com/teams/ER_NE_OTHERS_000134_Power_Tools/SitePages/RequestPowerApps.aspx" target="_blank" class="access-link">Power Apps Access Request</a></li>
+                        <li>Scroll down to the bottom of the page</li>
+                        <li>Submit the form to gain access to Power Apps</li>
+                        <li>Complete the form that appears</li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        Complete the Access Request Form
+                    </div>
+                    <p><strong>Fill in the Form Fields:</strong></p>
+                    <ul>
+                        <li><strong>UsageType:</strong> Select "Use only" (for logging concerns)</li>
+                        <li><strong>Approver:</strong> Enter your Supervisor/Senior's name or email address</li>
+                        <li><strong>RequestersComments:</strong> Enter "Access required for TPQC quality management system"</li>
+                        <li><strong>TermsOfUse:</strong> Check "Yes" to accept terms</li>
+                        <li><strong>Attachments:</strong> None required (leave blank)</li>
+                        <li><strong>Apply label:</strong> Leave as "None"</li>
+                        <li>Click <strong>"Save"</strong> to submit your request</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">3</span>
+                        Approval Process
+                    </div>
+                    <p><strong>What Happens Next:</strong></p>
+                    <ul>
+                        <li>Request goes to your Supervisor/Senior for approval</li>
+                        <li>If rejected, escalate to Manager level</li>
+                        <li>Will continue through management chain until approved</li>
+                        <li>Process typically takes 1-3 business days</li>
+                        <li>You'll receive email notification when approved</li>
+                    </ul>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">4</span>
+                        Access the Database
+                    </div>
+                    <p><strong>Once Approved:</strong></p>
+                    <ol>
+                        <li>Navigate to: <a href="https://nissangroup.sharepoint.com/teams/ER_NMGB_000121_TPQC-Newmodel/SitePages/Spot-Weld-Count-and-Confirmation.aspx" target="_blank" class="access-link">Spot Weld Database</a></li>
+                        <li>Click "Spot Weld Count and Position Database" button</li>
+                        <li>Start logging concerns using the "+ New" button</li>
+                    </ol>
+                </div>
+
+                <div class="warning">
+                    <h3 style="margin-top: 0;">⚠️ Important: Access Required First</h3>
+                    <p style="margin-bottom: 0;">You must complete this access request before you can use the spot weld concern system. Without Power Apps access, you won't be able to view or create concerns in the database.</p>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Guide Tab -->
+            <div id="step-by-step" class="tab-content">
+                <h2>How to Log a Spot Weld Concern - Step by Step</h2>
+                
+                <div class="warning">
+                    <h3 style="margin-top: 0;">⚠️ Prerequisites</h3>
+                    <p style="margin-bottom: 0;">Before following these steps, ensure you have completed the Power Apps access request in the first tab. You cannot log concerns without proper access.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">1</span>
+                        Access the Database
+                    </div>
+                    <p><strong>Navigate to the System:</strong></p>
+                    <ol>
+                        <li>Open your web browser (Chrome recommended)</li>
+                        <li>Go to: <a href="https://nissangroup.sharepoint.com/teams/ER_NMGB_000121_TPQC-Newmodel/SitePages/Spot-Weld-Count-and-Confirmation.aspx" target="_blank" class="access-link">Spot Weld Database</a></li>
+                        <li>Click: "Spot Weld Count and Position Database" button</li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">2</span>
+                        Create New Concern
+                    </div>
+                    <p><strong>Start New Entry:</strong></p>
+                    <ol>
+                        <li>Click the "<strong>+ New</strong>" button (top left of the list)</li>
+                        <li>New form opens on the right side</li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">3</span>
+                        Fill in Required Details
+                    </div>
+                    <p><strong>Complete the Form:</strong></p>
+                    <ul>
+                        <li>Fill in all required fields (marked with *)</li>
+                        <li>Use dropdown menus where available</li>
+                        <li>Enter responsible person's email address</li>
+                        <li>Add clear description of the concern</li>
+                    </ul>
+                    
+                    <div class="highlight" style="margin-top: 1rem;">
+                        <h4 style="margin-top: 0;">👥 Need Help Finding Responsible Person?</h4>
+                        <p style="margin-bottom: 0;">Check the <a href="https://nissangroup.sharepoint.com/:p:/r/teams/ER_NMUK_000202_PZ1D/_layouts/15/Doc.aspx?sourcedoc=%7B8F56817D-2B7C-4268-8856-CB7F4EBCDA2C%7D&file=Team%20Structure.pptx&fromShare=true&action=edit&mobileredirect=true" target="_blank" class="access-link">Team Structure</a> to identify the correct person for your area/line.</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">4</span>
+                        Add Photo
+                    </div>
+                    <p><strong>Attach Photo:</strong></p>
+                    <ol>
+                        <li>Scroll to "Attachments" section</li>
+                        <li>Upload photo of the concern</li>
+                    </ol>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">5</span>
+                        Submit the Concern
+                    </div>
+                    <p><strong>Save and Start the Process:</strong></p>
+                    <ol>
+                        <li>Review all fields are completed correctly</li>
+                        <li>Click the checkmark (✓) button at the top right</li>
+                        <li>Form closes and returns to list view</li>
+                        <li>Your concern appears with Status: "Awaiting Countermeasure"</li>
+                    </ol>
+                </div>
+
+                <div class="highlight">
+                    <h3 style="margin-top: 0;">⚡ What Happens Next (Automatic)</h3>
+                    <p><strong>Within 5 Minutes:</strong></p>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Status Update:</strong> System changes to "Awaiting Countermeasure"</li>
+                        <li><strong>Report Generation:</strong> HTML report created with details and image</li>
+                        <li><strong>Approval Request:</strong> Sent to responsible person via Teams Approvals</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Workflow Process Tab -->
+            <div id="workflow" class="tab-content">
+                <h2>Complete Workflow Process</h2>
+                
+                <div class="flowchart-container">
+                    <h3 style="margin-top: 0; text-align: center;">TPQC Spot Weld Concern Workflow</h3>
+                    
+                    <div class="flowchart" style="align-items: center;">
+                        <!-- Step 1 -->
+                        <div class="flow-box" style="background: white; border: 2px solid #333; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Step 1:</strong><br>
+                            TPQC Raise Concern<br>
+                            on Database
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Step 2 -->
+                        <div class="flow-box" style="background: white; border: 2px solid #333; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Step 2:</strong><br>
+                            Automated Message and Report<br>
+                            Sent to Responsible People
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Step 3 with Reject branch -->
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px;">
+                            <div class="flow-box" style="background: #ffe6cc; border: 2px solid #ff9933; width: 250px; margin: 10px; padding: 15px;">
+                                <strong>Step 3:</strong><br>
+                                Accept or Reject<br>
+                                Responsibility
+                            </div>
+                            <div style="font-size: 1.5rem; color: #333; margin: 0 10px;">→</div>
+                            <div style="background: #ffebee; border: 2px solid #e74c3c; padding: 10px 20px; border-radius: 50px; color: #e74c3c; font-weight: bold;">
+                                Reject<br>
+                                <small>(Step 5: TPQC Re-assign)</small>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Accept -->
+                        <div class="flow-box" style="background: #e8f5e8; border: 2px solid #4CAF50; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Accept:</strong><br>
+                            Proceed to Step 4
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Step 4 -->
+                        <div class="flow-box" style="background: white; border: 2px solid #333; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Step 4:</strong><br>
+                            Carry out Countermeasure,<br>
+                            Add Details & Submit for Review
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Step 6 with Reject branch -->
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px;">
+                            <div class="flow-box" style="background: #ffe6cc; border: 2px solid #ff9933; width: 250px; margin: 10px; padding: 15px;">
+                                <strong>Step 6:</strong><br>
+                                TPQC Receive Review<br>
+                                & Confirm Actions
+                            </div>
+                            <div style="font-size: 1.5rem; color: #333; margin: 0 10px;">→</div>
+                            <div style="background: #ffebee; border: 2px solid #e74c3c; padding: 10px 20px; border-radius: 50px; color: #e74c3c; font-weight: bold;">
+                                Reject<br>
+                                <small>(Step 8: New Concern)</small>
+                            </div>
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Accept -->
+                        <div class="flow-box" style="background: #e8f5e8; border: 2px solid #4CAF50; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Accept:</strong><br>
+                            Proceed to Step 7
+                        </div>
+
+                        <div style="font-size: 1.5rem; color: #333; margin: 5px;">↓</div>
+
+                        <!-- Step 7 -->
+                        <div class="flow-box" style="background: white; border: 2px solid #333; width: 250px; margin: 10px; padding: 15px;">
+                            <strong>Step 7:</strong><br>
+                            Close Concern<br>
+                            No Further Actions
+                        </div>
+
+                        <!-- Loop Back Arrow -->
+                        <div style="margin-top: 20px; display: flex; align-items: center; justify-content: center;">
+                            <div style="font-size: 1.1rem; color: #e74c3c; font-weight: bold; margin-right: 10px;">
+                                If Rejected: Process loops back to Step 1
+                            </div>
+                            <div style="font-size: 2rem; color: #e74c3c;">↶</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">📝</span>
+                        For Responsible Persons: How to Respond to Approval Requests
+                    </div>
+                    <p><strong>When you receive an approval email:</strong></p>
+                    <ol>
+                        <li><strong>Open the email</strong> - Contains all concern details</li>
+                        <li><strong>Click the report link</strong> - View full printable report with images</li>
+                        <li><strong>Investigate the concern</strong> - Check the actual location/issue</li>
+                        <li><strong>Implement countermeasure</strong> - Fix the problem first</li>
+                        <li><strong>Add detailed comments</strong> in the approval response explaining:
+                            <ul>
+                                <li>What action was taken</li>
+                                <li>When it was completed</li>
+                                <li>Any preventive measures implemented</li>
+                                <li>Verification that issue is resolved</li>
+                            </ul>
+                        </li>
+                        <li><strong>Click "APPROVE"</strong> - Only after countermeasure is complete</li>
+                        <li><strong>Click "REJECT"</strong> - If concern needs clarification or is invalid</li>
+                    </ol>
+                    
+                    <div class="highlight" style="margin-top: 1rem;">
+                        <h4 style="margin-top: 0;">💡 Good Comment Examples:</h4>
+                        <p><strong>Approve:</strong> "Extra weld removed using grinder on 10/08/25. Robot program updated to prevent recurrence. Area inspected and approved by supervisor. QA verification completed."</p>
+                        <p style="margin-bottom: 0;"><strong>Reject:</strong> "Unable to locate described issue. Inspected area thoroughly - no extra welds found. Request clearer photo or more specific location details."</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-title">
+                        <span class="step-number">✅</span>
+                        For TPQC Team: Final Confirmation Process
+                    </div>
+                    <p><strong>When you receive a confirmation request:</strong></p>
+                    <ol>
+                        <li><strong>Review original concern</strong> - Check initial problem details</li>
+                        <li><strong>Evaluate countermeasure</strong> - Assess if action taken is adequate</li>
+                        <li><strong>Verify implementation</strong> - Confirm work was actually completed</li>
+                        <li><strong>Add TPQC comments</strong> explaining your decision</li>
+                        <li><strong>Click "APPROVE"</strong> - If countermeasure meets TPQC standards</li>
+                        <li><strong>Click "REJECT"</strong> - If countermeasure needs improvement</li>
+                    </ol>
+                    
+                    <div class="highlight" style="margin-top: 1rem;">
+                        <h4 style="margin-top: 0;">🎯 TPQC Decision Criteria:</h4>
+                        <p><strong>Approve if:</strong> Countermeasure is complete, appropriate, and prevents recurrence</p>
+                        <p style="margin-bottom: 0;"><strong>Reject if:</strong> Action insufficient, incomplete, or doesn't address root cause</p>
+                    </div>
+                </div>
+
+                <div class="success">
+                    <h3 style="margin-top: 0;">🎯 Key Benefits</h3>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Automated Notifications:</strong> No manual email sending required</li>
+                        <li><strong>Structured Process:</strong> Clear workflow from submission to closure</li>
+                        <li><strong>Document Generation:</strong> Professional reports created automatically</li>
+                        <li><strong>Status Tracking:</strong> Real-time status updates for all concerns</li>
+                        <li><strong>Complete Audit Trail:</strong> Full history of all decisions and actions</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Support & Contact Tab -->
+            <div id="support" class="tab-content">
+                <h2>Support & Contact Information</h2>
+                
+                <div class="contact-card">
+                    <h3>📞 Primary Support Contact</h3>
+                    <h4>Gareth Wright</h4>
+                    <p><strong>Role:</strong> Supervisor, New Model TPQC</p>
+                    <p><strong>Location:</strong> Nissan Motor Manufacturing UK – Sunderland Plant</p>
+                    <p><strong>Phone:</strong> +44 – (0) 191 4184069</p>
+                    <p><strong>Mobile:</strong> +44 – 07584396722</p>
+                    <p><strong>Email:</strong> Gareth.Wright@nissan-nmuk.co.uk</p>
+                </div>
+
+                <div class="quick-links">
+                    <div class="quick-link-card">
+                        <span class="emoji">🔧</span>
+                        <h3>System Issues</h3>
+                        <p><strong>Contact:</strong> Gareth Wright</p>
+                        <p>Flow ownership, system maintenance, user access, troubleshooting</p>
+                    </div>
+                    <div class="quick-link-card">
+                        <span class="emoji">📋</span>
+                        <h3>Process Questions</h3>
+                        <p><strong>TPQC Team:</strong></p>
+                        <p>Dennis Lincoln, John Lambert, Steven Burton, Glen Priestley, Gareth Wright</p>
+                    </div>
+                    <div class="quick-link-card">
+                        <span class="emoji">💻</span>
+                        <h3>IT Support</h3>
+                        <p><strong>For:</strong> SharePoint access, email issues, browser problems</p>
+                        <p>Contact your local IT support team</p>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <h3 style="margin-top: 0;">⚠️ Important Notes</h3>
+                    <p><strong>Before Submitting:</strong></p>
+                    <ul style="margin-bottom: 0;">
+                        <li>Double-check email in Responsibility field</li>
+                        <li>Verify image quality - clear and focused</li>
+                        <li>Complete description - specific and actionable</li>
+                        <li>Correct robot/weld IDs for accurate tracking</li>
+                    </ul>
+                </div>
+
+                <div class="success">
+                    <h3 style="margin-top: 0;">✅ System Information</h3>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Flow Name:</strong> "TEST - Spot Weld Concern Approval and PDF Generation"</li>
+                        <li><strong>Trigger:</strong> New items in SharePoint list (5-minute intervals)</li>
+                        <li><strong>Connections:</strong> SharePoint, Approvals, Teams</li>
+                        <li><strong>Environment:</strong> NE_AMIEO_Citizen_Development</li>
+                        <li><strong>Last Updated:</strong> August 2025</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
